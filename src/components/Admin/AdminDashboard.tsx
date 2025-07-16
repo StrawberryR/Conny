@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, UserCheck, AlertTriangle, TrendingUp, BarChart3, Settings, Shield, Database } from 'lucide-react';
+import { Users, UserCheck, AlertTriangle, TrendingUp, BarChart3, Settings, Shield, Database, User } from 'lucide-react';
 import { AdminStats, User, Patient, Psychologist } from '../../types';
 
 interface AdminDashboardProps {
