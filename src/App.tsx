@@ -210,6 +210,7 @@ function App() {
         return <Resources />;
       
       case 'patients':
+      case 'users':
         if (user.role === 'psychologist' || user.role === 'admin') {
           return <PatientsManagement currentUser={user} />;
         }
