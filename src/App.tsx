@@ -215,12 +215,6 @@ function App() {
         }
         return <Dashboard emotions={emotions} thoughtRecords={thoughtRecords} user={user} />;
       
-      case 'users':
-        if (user.role === 'admin') {
-          return <AdminDashboard currentUser={user} />;
-        }
-        return <Dashboard emotions={emotions} thoughtRecords={thoughtRecords} user={user} />;
-      
       case 'admin':
         if (user.role === 'admin') {
           return <AdminDashboard currentUser={user} />;

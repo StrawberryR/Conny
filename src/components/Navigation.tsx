@@ -37,7 +37,7 @@ export default function Navigation({ currentView, onViewChange, user, onLogout }
     if (user.role === 'admin') {
       return [
         ...baseItems,
-        { id: 'users' as ViewType, label: 'Usuarios', icon: Users },
+        { id: 'patients' as ViewType, label: 'Usuarios', icon: Users },
         { id: 'analytics' as ViewType, label: 'Análisis', icon: BarChart3 },
         { id: 'admin' as ViewType, label: 'Administración', icon: Settings },
       ];
