@@ -70,4 +70,4 @@ export interface AdminStats {
   };
 }
 
-export type ViewType = 'dashboard' | 'emotions' | 'thoughts' | 'analytics' | 'resources' | 'patients' | 'users' | 'admin';
+export type ViewType = 'dashboard' | 'emotions' | 'thoughts' | 'analytics' | 'resources' | 'patients' | 'admin';

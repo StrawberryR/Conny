@@ -11,8 +11,7 @@ export default function AdminDashboard({ currentUser }: AdminDashboardProps) {
   const [users, setUsers] = useState<User[]>([]);
   const [psychologists, setPsychologists] = useState<Psychologist[]>([]);
   const [patients, setPatients] = useState<Patient[]>([]);
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'settings'>('overview');
-  const [userFilter, setUserFilter] = useState<'all' | 'patients' | 'psychologists'>('all');
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'psychologists' | 'settings'>('overview');
 
   // Mock data - En producción vendría de la API
   useEffect(() => {
@@ -56,51 +55,8 @@ export default function AdminDashboard({ currentUser }: AdminDashboardProps) {
       }
     ];
 
-    const mockPatients: Patient[] = [
-      {
-        id: 'pat1',
-        email: 'maria.garcia@email.com',
-        name: 'María García',
-        role: 'patient',
-        assignedPsychologist: 'psy1',
-        status: 'active',
-        treatmentStartDate: '2024-01-15',
-        registrationDate: '2024-01-15',
-        lastActivity: '2024-01-20',
-        riskLevel: 'medium',
-        notes: 'Paciente con ansiedad generalizada.'
-      },
-      {
-        id: 'pat2',
-        email: 'carlos.lopez@email.com',
-        name: 'Carlos López',
-        role: 'patient',
-        assignedPsychologist: 'psy1',
-        status: 'active',
-        treatmentStartDate: '2024-01-10',
-        registrationDate: '2024-01-10',
-        lastActivity: '2024-01-19',
-        riskLevel: 'low',
-        notes: 'Depresión leve.'
-      },
-      {
-        id: 'pat3',
-        email: 'ana.martinez@email.com',
-        name: 'Ana Martínez',
-        role: 'patient',
-        assignedPsychologist: 'psy2',
-        status: 'active',
-        treatmentStartDate: '2024-01-05',
-        registrationDate: '2024-01-05',
-        lastActivity: '2024-01-18',
-        riskLevel: 'high',
-        notes: 'Requiere seguimiento cercano.'
-      }
-    ];
-
     setStats(mockStats);
     setPsychologists(mockPsychologists);
-    setPatients(mockPatients);
   }, []);
 
   const OverviewTab = () => (
@@ -243,84 +199,13 @@ export default function AdminDashboard({ currentUser }: AdminDashboardProps) {
     </div>
   );
 
-  const UsersTab = () => {
-    const filteredUsers = () => {
-      if (userFilter === 'psychologists') {
-        return psychologists;
-      } else if (userFilter === 'patients') {
-        return patients;
-      } else {
-        return [...psychologists, ...patients];
-      }
-    };
-
-    const getRoleColor = (role: string) => {
-      switch (role) {
-        case 'psychologist': return 'bg-purple-100 text-purple-800';
-        case 'patient': return 'bg-blue-100 text-blue-800';
-        default: return 'bg-gray-100 text-gray-800';
-      }
-    };
-
-    const getRoleLabel = (role: string) => {
-      switch (role) {
-        case 'psychologist': return 'Psicólogo';
-        case 'patient': return 'Paciente';
-        default: return 'Usuario';
-      }
-    };
-
-    const getRiskColor = (risk?: string) => {
-      if (!risk) return '';
-      switch (risk) {
-        case 'high': return 'bg-red-100 text-red-800 border-red-200';
-        case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-        case 'low': return 'bg-green-100 text-green-800 border-green-200';
-        default: return 'bg-gray-100 text-gray-800 border-gray-200';
-      }
-    };
-
-    return (
+  const PsychologistsTab = () => (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h3 className="text-lg font-semibold text-gray-900">Gestión de Usuarios</h3>
-        <div className="flex items-center space-x-4">
-          <div className="flex bg-gray-100 p-1 rounded-lg">
-            <button
-              onClick={() => setUserFilter('all')}
-              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
-                userFilter === 'all'
-                  ? 'bg-white text-blue-700 shadow-sm font-medium'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Todos ({psychologists.length + patients.length})
-            </button>
-            <button
-              onClick={() => setUserFilter('patients')}
-              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
-                userFilter === 'patients'
-                  ? 'bg-white text-blue-700 shadow-sm font-medium'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Pacientes ({patients.length})
-            </button>
-            <button
-              onClick={() => setUserFilter('psychologists')}
-              className={`px-4 py-2 rounded-lg transition-all duration-200 ${
-                userFilter === 'psychologists'
-                  ? 'bg-white text-blue-700 shadow-sm font-medium'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Psicólogos ({psychologists.length})
-            </button>
-          </div>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-            Agregar Usuario
-          </button>
-        </div>
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-gray-900">Gestión de Psicólogos</h3>
+        <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors duration-200">
+          Agregar Psicólogo
+        </button>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -329,16 +214,16 @@ export default function AdminDashboard({ currentUser }: AdminDashboardProps) {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Usuario
+                  Psicólogo
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Rol
+                  Licencia
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Información
+                  Especialización
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Estado/Actividad
+                  Pacientes
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Acciones
@@ -346,67 +231,37 @@ export default function AdminDashboard({ currentUser }: AdminDashboardProps) {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filteredUsers().map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50">
+              {psychologists.map((psy) => (
+                <tr key={psy.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                      <div className="text-sm text-gray-500">{user.email}</div>
+                      <div className="text-sm font-medium text-gray-900">{psy.name}</div>
+                      <div className="text-sm text-gray-500">{psy.email}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getRoleColor(user.role || 'patient')}`}>
-                      {getRoleLabel(user.role || 'patient')}
-                    </span>
+                    {psy.license}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {user.role === 'psychologist' ? (
-                      <div className="flex flex-wrap gap-1">
-                        {(user as Psychologist).specialization?.slice(0, 2).map(spec => (
-                          <span key={spec} className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
-                            {spec}
-                          </span>
-                        ))}
-                        {(user as Psychologist).specialization?.length > 2 && (
-                          <span className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
-                            +{(user as Psychologist).specialization.length - 2}
-                          </span>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-2">
-                        {(user as Patient).riskLevel && (
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getRiskColor((user as Patient).riskLevel)}`}>
-                            Riesgo {(user as Patient).riskLevel === 'high' ? 'Alto' : (user as Patient).riskLevel === 'medium' ? 'Medio' : 'Bajo'}
-                          </span>
-                        )}
-                      </div>
-                    )}
+                    <div className="flex flex-wrap gap-1">
+                      {psy.specialization.slice(0, 2).map(spec => (
+                        <span key={spec} className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                          {spec}
+                        </span>
+                      ))}
+                      {psy.specialization.length > 2 && (
+                        <span className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
+                          +{psy.specialization.length - 2}
+                        </span>
+                      )}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {user.role === 'psychologist' ? (
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {(user as Psychologist).patients?.length || 0}/{(user as Psychologist).maxPatients || 0} pacientes
-                        </div>
-                        <div className="text-xs text-gray-500">Licencia: {(user as Psychologist).license}</div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {(user as Patient).status === 'active' ? 'Activo' : (user as Patient).status === 'inactive' ? 'Inactivo' : 'Completado'}
-                        </div>
-                        <div className="text-xs text-gray-500">
-                          Última actividad: {user.lastActivity ? new Date(user.lastActivity).toLocaleDateString() : 'N/A'}
-                        </div>
-                      </div>
-                    )}
+                    {psy.patients.length}/{psy.maxPatients}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <button className="text-blue-600 hover:text-blue-900 mr-3">Editar</button>
-                    <button className="text-red-600 hover:text-red-900">
-                      {user.role === 'psychologist' ? 'Desactivar' : 'Suspender'}
-                    </button>
+                    <button className="text-red-600 hover:text-red-900">Desactivar</button>
                   </td>
                 </tr>
               ))}
@@ -415,7 +270,7 @@ export default function AdminDashboard({ currentUser }: AdminDashboardProps) {
         </div>
       </div>
     </div>
-  )};
+  );
 
   const SettingsTab = () => (
     <div className="space-y-6">
@@ -472,7 +327,7 @@ export default function AdminDashboard({ currentUser }: AdminDashboardProps) {
       <div className="flex space-x-1 mb-8 bg-gray-100 p-1 rounded-lg">
         {[
           { id: 'overview', label: 'Resumen', icon: BarChart3 },
-          { id: 'users', label: 'Usuarios', icon: Users },
+          { id: 'psychologists', label: 'Psicólogos', icon: Shield },
           { id: 'settings', label: 'Configuración', icon: Settings },
         ].map((tab) => {
           const IconComponent = tab.icon;
@@ -495,7 +350,7 @@ export default function AdminDashboard({ currentUser }: AdminDashboardProps) {
 
       {/* Tab Content */}
       {activeTab === 'overview' && <OverviewTab />}
-      {activeTab === 'users' && <UsersTab />}
+      {activeTab === 'psychologists' && <PsychologistsTab />}
       {activeTab === 'settings' && <SettingsTab />}
     </div>
   );
